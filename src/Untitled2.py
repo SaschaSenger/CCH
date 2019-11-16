@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 # Importing the Keras libraries and packages
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -27,10 +21,6 @@ classifier.add(Dense(units = 10, activation = 'sigmoid')) # units = 1 -> 10
 # Compiling the CNN
 classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy']) #binary_ -> categorical_
 
-
-# In[5]:
-
-
 # Part 2 - Fitting the CNN to the images
 from keras.preprocessing.image import ImageDataGenerator
 train_datagen = ImageDataGenerator(rescale = 1./255,
@@ -52,10 +42,6 @@ epochs = 5,
 validation_data = test_set,
 validation_steps = 20)
 
-
-# In[78]:
-
-
 # Part 3 - Making new predictions
 import numpy as np
 from keras.preprocessing import image
@@ -74,10 +60,3 @@ max_value_index = np.argmax(result)
 for key, value in training_set.class_indices.items():
     if max_value_index == value:
         print("Prediction:" + key)
-
-
-# In[ ]:
-
-
-
-
