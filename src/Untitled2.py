@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 # Importing the Keras libraries and packages
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -20,6 +26,11 @@ classifier.add(Dense(units = 128, activation = 'relu'))
 classifier.add(Dense(units = 10, activation = 'sigmoid')) # units = 1 -> 10
 # Compiling the CNN
 classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy']) #binary_ -> categorical_
+
+
+# In[5]:
+
+
 # Part 2 - Fitting the CNN to the images
 from keras.preprocessing.image import ImageDataGenerator
 train_datagen = ImageDataGenerator(rescale = 1./255,
@@ -36,20 +47,37 @@ target_size = (64, 64),
 batch_size = 32,
 class_mode = 'categorical') # binary -> categorical
 classifier.fit_generator(training_set,
-steps_per_epoch = 10,
-epochs = 1,
+steps_per_epoch = 30,
+epochs = 5,
 validation_data = test_set,
-validation_steps = 2000)
+validation_steps = 20)
+
+
+# In[78]:
+
+
 # Part 3 - Making new predictions
 import numpy as np
 from keras.preprocessing import image
-test_image = image.load_img('/home/nyxware/Testset/6_Birnen_Dose/IMG_1317.jpg', target_size = (64, 64))
+test_image = image.load_img('/home/nyxware/Testset/6_Birnen_Dose/IMG_4346.jpg', target_size = (64, 64))
 test_image = image.img_to_array(test_image)
+test_image /= 255
 test_image = np.expand_dims(test_image, axis = 0)
 result = classifier.predict(test_image)
-training_set.class_indices
-#if result[0][0] == 1:
-#prediction = 'dog'
-#else:
-#prediction = 'cat'
-print('result' + result)
+
+
+for i in range(10):
+    print(f"{result[0][i]:.2f}")
+    
+max_value_index = np.argmax(result)
+
+for key, value in training_set.class_indices.items():
+    if max_value_index == value:
+        print("Prediction:" + key)
+
+
+# In[ ]:
+
+
+
+
